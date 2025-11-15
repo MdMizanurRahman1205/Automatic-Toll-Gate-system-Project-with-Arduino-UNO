@@ -1,0 +1,43 @@
+/*
+  ------------------------------------------------------------
+   AUTOMATIC TOLL GATE SYSTEM USING ARDUINO
+   ------------------------------------------------------------
+   This project automatically opens and closes a toll gate using an IR sensor to detect vehicles and a servo motor as the gate barrier.
+   When a vehicle is detected (IR sensor LOW), the gate opens. After a short delay, the gate closes again automatically.
+   Simple, reliable, and perfect for DIY, school, and college projects.
+   ✔ IR Sensor Detection
+   ✔ Servo Motor Gate Control
+   ✔ Automatic Opening & Closing
+
+   Designed by: MD MIZANUR RAHMAN
+  ------------------------------------------------------------
+*/
+
+#include <Servo.h>
+
+Servo gateServo;
+
+int irSensor = 2;     // IR sensor pin
+int servoPin = 9;     // Servo control pin
+int openAngle = 90;   // Gate open position
+int closeAngle = 0;   // Gate closed position
+
+void setup() {
+  gateServo.attach(servoPin);
+  pinMode(irSensor, INPUT);
+  gateServo.write(closeAngle);  // Start with gate closed
+}
+
+void loop() {
+  int sensorValue = digitalRead(irSensor);
+
+  // Many IR sensors give LOW when object is detected
+  if (sensorValue == LOW) {
+    gateServo.write(openAngle);   // Open gate
+    delay(2000);                  // Keep gate open for 2 seconds
+  } else {
+    gateServo.write(closeAngle);  // Close gate
+  }
+
+  delay(100);
+}
